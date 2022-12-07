@@ -1,8 +1,6 @@
 from time import *
-import tracemalloc
 import psutil
 import sys
-
 
 DELTA = 30
 ALPHA = [[0, 110, 48, 94], [110, 0, 118, 48], [48, 118, 0, 110], [94, 48, 110, 0]]
@@ -56,12 +54,9 @@ def get_optimal(string1, string2):
             else:
                 min_penalty= min(OPT[i-1][j-1] + penalty_mismatch(string1[i-1], string2[j-1]), OPT[i-1][j] + DELTA, OPT[i][j-1] + DELTA)
                 OPT[i][j] = min_penalty
-    return OPT
+    return get_string_alignment(OPT, string1, string2)
 
 def get_string_alignment(OPT, string1, string2):
-    alg=[[0 for _ in range(len(string2)+1)] for __ in range(len(string1)+1)]
-    alg[len(string1)][len(string2)] = 1
-    alg[0][0] = 1
     i = len(string1)
     j = len(string2)
     alignment_string1 = ""
@@ -88,45 +83,10 @@ def get_string_alignment(OPT, string1, string2):
         alignment_string1 = alignment_string1 + '-'
         alginment_string2 = alginment_string2 + string2[j-1]
         j=j-1
-    print(alignment_string1[::-1],alginment_string2[::-1], "1")
-
-    '''
-    i = len(string1)
-    j = len(string2)
-    while i>0 and j>0:
-        if  OPT[i][j]==OPT[i-1][j]+DELTA:
-            alg[i-1][j]=1
-            i=i-1
-        elif  OPT[i][j]==OPT[i][j-1]+DELTA:
-            alg[i][j-1] = 1
-            j=j-1
-        else:
-            alg[i-1][j - 1] = 1
-            i=i-1
-            j=j-1
-    alignment_string1 = ""
-    alginment_string2 = ""
-    i,j = 0, 0
-    while i!=len(string1) and j!=len(string2):
-        if i!=len(string1) and alg[i+1][j]==1:
-            alignment_string1=alignment_string1+string1[i]
-            alginment_string2 = alginment_string2 + '-'
-            i=i+1
-        elif j!=len(string2) and alg[i][j+1]==1:
-            alignment_string1 = alignment_string1 + '-'
-            alginment_string2 = alginment_string2 + string2[j]
-            j=j+1
-        else:
-            alignment_string1 = alignment_string1 + string1[i]
-            alginment_string2 = alginment_string2 + string2[j]
-            i=i+1
-            j=j+1
-    print(alignment_string1,alginment_string2,"2")
-    '''
-    return alignment_string1[::-1],alginment_string2[::-1]
+    print(alignment_string1[::-1],alginment_string2[::-1])
+    return alignment_string1[::-1],alginment_string2[::-1], OPT[len(string1)][len(string2)]
 
 def write_output(file, total_time, memory_consumed, alignment_string1, alignment_string2, opt_value, string1="", string2=""):
-    
     print(total_time, "Total Time")
     print(memory_consumed, "Memory Consumed")
     print("input size:", len(string1) + len(string2))
@@ -149,14 +109,13 @@ def main():
     string2 = generate_string(string_list[1], b2_index)
     start = time()
     #tracemalloc.start(25) #com
-    OPT = get_optimal(string1, string2)
-    alignment_string1, alignment_string2 = get_string_alignment(OPT, string1, string2)
+    alignment_string1, alignment_string2, penalty = get_optimal(string1, string2)
     end = time()
     total_time = (end - start)*1000
     process = psutil.Process()
     memory_info = process.memory_info()
     memory_consumed = int(memory_info.rss/1024)
     #size, peak = tracemalloc.get_traced_memory() #com  
-    write_output(output_file, total_time, memory_consumed, alignment_string1, alignment_string2, OPT[len(string1)][len(string2)], string1, string2)
+    write_output(output_file, total_time, memory_consumed, alignment_string1, alignment_string2, penalty, string1, string2)
 
 main()
