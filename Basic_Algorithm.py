@@ -64,6 +64,35 @@ def get_string_alignment(OPT, string1, string2):
     alg[0][0] = 1
     i = len(string1)
     j = len(string2)
+    alignment_string1 = ""
+    alginment_string2 = ""
+    while i>0 and j>0:
+        if OPT[i][j]==OPT[i][j-1]+DELTA:
+            alignment_string1 = alignment_string1 + '-'
+            alginment_string2 = alginment_string2 + string2[j-1]
+            j=j-1
+        elif OPT[i][j]==OPT[i-1][j]+DELTA:
+            alignment_string1=alignment_string1+string1[i-1]
+            alginment_string2 = alginment_string2 + '-'
+            i=i-1
+        else:
+            alignment_string1 = alignment_string1 + string1[i-1]
+            alginment_string2 = alginment_string2 + string2[j-1]
+            i=i-1
+            j=j-1
+    while i:
+        alignment_string1=alignment_string1+string1[i-1]
+        alginment_string2 = alginment_string2 + '-'
+        i=i-1
+    while j:
+        alignment_string1 = alignment_string1 + '-'
+        alginment_string2 = alginment_string2 + string2[j-1]
+        j=j-1
+    print(alignment_string1[::-1],alginment_string2[::-1], "1")
+
+    '''
+    i = len(string1)
+    j = len(string2)
     while i>0 and j>0:
         if  OPT[i][j]==OPT[i-1][j]+DELTA:
             alg[i-1][j]=1
@@ -92,7 +121,9 @@ def get_string_alignment(OPT, string1, string2):
             alginment_string2 = alginment_string2 + string2[j]
             i=i+1
             j=j+1
-    return alignment_string1, alginment_string2
+    print(alignment_string1,alginment_string2,"2")
+    '''
+    return alignment_string1[::-1],alginment_string2[::-1]
 
 def write_output(file, total_time, memory_consumed, alignment_string1, alignment_string2, opt_value, string1="", string2=""):
     
@@ -120,7 +151,6 @@ def main():
     start = time()
     #tracemalloc.start(25) #com
     OPT = get_optimal(string1, string2)
-    print(OPT)
     alignment_string1, alignment_string2 = get_string_alignment(OPT, string1, string2)
     end = time()
     total_time = (end - start)*1000
