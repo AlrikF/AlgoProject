@@ -138,7 +138,6 @@ def write_output(file, total_time, memory_consumed, alignment_string1, alignment
     #print(peak, "p")
      
     f = open(file, 'wt')
-    f.write(string1+"\n"+string2 + "\n")
     f.write(str(opt_value) + "\n" + alignment_string1+"\n"+alignment_string2+"\n"+str(total_time)+"\n"+str(memory_consumed))
     f.close()
 
