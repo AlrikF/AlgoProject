@@ -45,7 +45,6 @@ class AlgoUtils:
 
 
         f = open(file, 'wt')
-        f.write(dna1 + "\n" + dna2 + "\n")
         f.write(
             str(total_dna_align_cost) + "\n" + final_dna1_align + "\n" + final_dna2_align + "\n" + str(total_time) + "\n" + str(
                 memory_consumed))
