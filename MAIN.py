@@ -12,7 +12,7 @@ Basic_Time=[]
 #loop 15 times for 15 testcases
 for i in range(1,16):
     j=str(i)
-    path='python Efficient.py' + ' in' + j + '.txt' + ' e_output' + j + '.txt'
+    path='python Efficient_Algorithm.py' + ' in' + j + '.txt' + ' e_output' + j + '.txt'
     cmd = path
     p = subprocess.Popen(cmd, shell=True)
     out, err= p.communicate()
