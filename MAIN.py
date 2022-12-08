@@ -48,9 +48,9 @@ for i in range(1,16):
     outpath = r"C:\Users\justi\b_output" + j + '.txt'
     file=open(outpath)
     content=file.readlines()
-    m=content[6]
-    s=content[2]
-    t=content[5]
+    m=content[4]
+    s=content[0]
+    t=content[3]
     slen= len(s)
     # Slice string to remove last 2 characters from string
     s=s[:slen - 2]
