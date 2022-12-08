@@ -1,6 +1,6 @@
 import subprocess
 
-    #lists for storing values from output files. Values will be ordered for input1 file to input15
+#lists for storing values from output files. Values will be ordered for input1 file to input15
 Eff_Memory=[]
 Eff_Time=[]
 Problem_Size=[]
@@ -22,23 +22,20 @@ for i in range(1,16):
     outpath = r"./e_output" + j + '.txt'
     file=open(outpath)
     content=file.readlines()
-    print(content)
     m=content[4]
-    s1=content[1].replace("_","")
-    s2=content[2].replace("_","")
+    s=content[0]
     t=content[3]
-
-    #slen= len(s)
+    slen= len(s)
     # Slice string to remove last 2 characters from string
-    #s=s[:slen - 2]
-    #s=int(s)
+    s=s[:slen - 2]
+    s=int(s)
     tlen= len(t)
     t=t[:tlen - 1]
     t=float(t)
     m=int(m)
     Eff_Memory.append(m)
     Eff_Time.append(t)
-    Problem_Size.append(len(s1)+len(s2)-4)
+    Problem_Size.append(s)
     # end of running efficient code, all 15 test cases
 
     path='python Basic_Algorithm.py' + ' ./datapoints/in' + j + '.txt' + ' b_output' + j + '.txt'
@@ -52,45 +49,30 @@ for i in range(1,16):
     file=open(outpath)
     content=file.readlines()
     m=content[4]
-    #s1=content[1].replace("-","")
-    #s2=content[2].replace("-","")
+    s=content[0]
     t=content[3]
-    #slen= len(s)
+    slen= len(s)
     # Slice string to remove last 2 characters from string
-    #s=s[:slen - 2]
-    #s=int(s)
+    s=s[:slen - 2]
+    s=int(s)
     tlen= len(t)
     t=t[:tlen - 1]
     t=float(t)
     m=int(m)
     Basic_Memory.append(m)
     Basic_Time.append(t)
-    #Problem_Size.append(len(s1)+len(s2)-4)
+    #Problem_Size.append(s)
     print('\nTestcase ' + j + ' complete!\n')
     #end of running basic.py for all 15 input files
 
 
-from collections import OrderedDict
-d = OrderedDict()
-for i in range(len(Problem_Size)):
-    d[Problem_Size[i]] = [Basic_Memory[i], Eff_Memory[i]]
-
-print(d)
-ps = []
-bm = []
-em = []
-for key,value in d.items():
-    ps.append(key)
-    bm.append(value[0])
-    em.append(value[1])
-
 #create dicionary 
 Memory_Plot = {}
 #append lists to dictionary
-Memory_Plot["Problem_Size"] = ps
-Memory_Plot["Memory_Basic"] = bm
-Memory_Plot["Memory_Efficient"] = em
-print(len(Problem_Size), len(Basic_Memory), len(Eff_Memory))
+Memory_Plot["Problem_Size"] = Problem_Size
+Memory_Plot["Memory_Basic"] = Basic_Memory
+Memory_Plot["Memory_Efficient"] = Eff_Memory
+
 CPU_Plot={}
 CPU_Plot["Problem_Size"] = Problem_Size
 CPU_Plot["Time_Basic"] = Basic_Time
@@ -100,14 +82,16 @@ CPU_Plot["Time_Efficient"] = Eff_Time
 
 import pandas as pd
 mem_plot = pd.DataFrame(Memory_Plot)
+mem_plot
 time_plot= pd.DataFrame(CPU_Plot)
+time_plot
 
 import matplotlib.pyplot as m
+
 #time
 fig, ax = m.subplots()
 ax = m.plot(time_plot['Problem_Size'], time_plot['Time_Basic'], marker="^", label='Basic Version')
 ax = m.plot(time_plot['Problem_Size'], time_plot['Time_Efficient'], marker="s", label='Efficient Version',linestyle="--")
-
 m.legend(loc='upper left')
 m.xlabel('Problem Size (m + n)')
 m.ylabel('\nCPU Time (ms)')
@@ -117,12 +101,8 @@ m.show()
 m.savefig('CPU_Plot.jpg')
 
 # memory
-#fig, ax = m.subplots()
 m.plot(mem_plot['Problem_Size'], mem_plot['Memory_Basic'], marker="^", label='Basic Version')
 m.plot(mem_plot['Problem_Size'], mem_plot['Memory_Efficient'], marker="s", label='Efficient Version',linestyle="--")
-
-#ax2 = m.gca()
-#ax2.set_ylim([5000, 25000])
 m.legend(loc='upper left')
 m.xlabel('Problem Size (m + n)')
 m.ylabel('\nMemory Usage (kb)')
