@@ -45,7 +45,6 @@ class AlgoUtils:
 
 
         f = open(file, 'wt')
-        f.write(dna1 + "\n" + dna2 + "\n")
         f.write(
             str(total_dna_align_cost) + "\n" + final_dna1_align + "\n" + final_dna2_align + "\n" + str(total_time) + "\n" + str(
                 memory_consumed))
@@ -165,7 +164,7 @@ class Efficient_Algorithm:
                 final_dna2.append(dna2[i - 1])
 
         final_dna1.reverse()
-        final_dna1.reverse()
+        final_dna2.reverse()
 
         return "".join(final_dna1), "".join(final_dna2)
 
