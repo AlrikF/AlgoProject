@@ -1,8 +1,9 @@
 import subprocess
+import sys
 
-    #lists for storing values from output files. Values will be ordered for input1 file to input15
-Eff_Memory=[]
-Eff_Time=[]
+#lists for storing values from output files. Values will be ordered for input1 file to input15
+Eff_Memory =[]
+Eff_Time =[]
 Problem_Size=[]
 Basic_Memory=[]
 Basic_Time=[]
@@ -38,7 +39,7 @@ for i in range(1,16):
     m=int(m)
     Eff_Memory.append(m)
     Eff_Time.append(t)
-    Problem_Size.append(len(s1)+len(s2)-4)
+    Problem_Size.append(len(s1)+len(s2)-2)
     # end of running efficient code, all 15 test cases
 
     path='python Basic_Algorithm.py' + ' ./datapoints/in' + j + '.txt' + ' b_output' + j + '.txt'
@@ -84,7 +85,7 @@ for key,value in d.items():
     bm.append(value[0])
     em.append(value[1])
 
-#create dicionary 
+#create dicionary
 Memory_Plot = {}
 #append lists to dictionary
 Memory_Plot["Problem_Size"] = ps
@@ -130,3 +131,16 @@ m.title('Memory Usage vs. Problem Size')
 m.subplots_adjust(left=0.05, bottom=0.01)
 m.show()
 m.savefig('Memory_Plot.jpg')
+
+
+
+print("\n Basic Time:: ")
+print(Basic_Time)
+print("\n Efficient Time:: ")
+print(Eff_Time)
+print("\n Basic Memory :: ")
+print(bm)
+print("\n Efficient Memory :: ")
+print(em)
+print("\n Problem Size::", ps)
+
