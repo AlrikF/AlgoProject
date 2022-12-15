@@ -23,6 +23,7 @@ for i in range(1,16):
     outpath = r"./e_output" + j + '.txt'
     file=open(outpath)
     content=file.readlines()
+
     print(content)
     m=content[4]
     s1=content[1].replace("_","")
@@ -30,6 +31,7 @@ for i in range(1,16):
     t=content[3]
 
     #slen= len(s)
+
     # Slice string to remove last 2 characters from string
     #s=s[:slen - 2]
     #s=int(s)
@@ -53,10 +55,12 @@ for i in range(1,16):
     file=open(outpath)
     content=file.readlines()
     m=content[4]
+
     #s1=content[1].replace("-","")
     #s2=content[2].replace("-","")
     t=content[3]
     #slen= len(s)
+
     # Slice string to remove last 2 characters from string
     #s=s[:slen - 2]
     #s=int(s)
